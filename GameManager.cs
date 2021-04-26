@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
     public static int depth=0;
     public static int Shots=20;
     public static int Lives=5;
-    int nextLevelAt = 20;
+    int nextLevelAt = 30;
 
     Button button;
 
@@ -65,7 +65,15 @@ public class GameManager : MonoBehaviour
         Vector3 paddlePos = paddle.gameObject.transform.position;
         Vector3 ballPos = new Vector3(paddlePos.x, paddlePos.y - .25f, 0);
 
+        if(isGameOver)
+        {
+            Cursor.visible = true;
+        }
 
+        if(!isGameOver)
+        {
+            Cursor.visible = false;
+        }
 
         if(Input.GetMouseButtonDown(0) && startGame == false)
         {
@@ -90,16 +98,16 @@ public class GameManager : MonoBehaviour
         PointsText.text = points.ToString();
 
 
-        if(points >= nextLevelAt && isGameOver)
+        if(points >= nextLevelAt && !isGameOver)
         {
             initializeBlockLayer(1);
-            nextLevelAt+=20;
+            nextLevelAt+=30;
 
             depth++;
             DepthText.text = depth.ToString();
         }
 
-        if(Shots <= 0)
+        if(Shots <= 0 && !isGameOver)
         {
             Shots =20;
             Reload.Play();
